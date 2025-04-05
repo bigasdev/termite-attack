@@ -39,13 +39,13 @@ public:
   AffectManager* m_affect_manager;
   //used to animate the Entity
   SpriteAnimator *animator;
+  float z_gravity = 15.17;
 private:
 
   
-  float frict_x = 0.98f , frict_y = 0.98f;
+  float frict_x = 0.92f , frict_y = 0.95f;
   //gravity stuff 
   float dz = 0.0, zr = 0.0;
-  float z_gravity = 0.027;
 
   //bump velocity, used to bumpers or speeders 
   float bd_x = 0.0, bd_y = 0.0;

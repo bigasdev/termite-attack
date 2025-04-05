@@ -7,8 +7,6 @@
 #include "../renderer/Camera.hpp"
 #include  "../tools/Logger.hpp"
 
-//FIX: revamp this later, just a base state manager
-bool is_idle = true;
 
 Entity::Entity() {
 }
@@ -18,13 +16,6 @@ Entity::Entity(std::string spr_name, vec2 _pos) {
   pos = _pos;
 
   animator = new SpriteAnimator(&spr);
-
-  SpriteFrame idle = g_res->get_animation("idle");
-  idle.orig_x = spr.dst_x;
-  idle.orig_y = spr.dst_y;
-  idle.state = &is_idle;
-
-  animator->register_anim(idle);
 
   m_cooldown = new Cooldown();
   m_affect_manager = new AffectManager();
@@ -59,6 +50,7 @@ void Entity::fixed_update(double tmod) {
   dx*=Math::pow(frict_x, tmod);
   dy*=Math::pow(frict_y, tmod);
 
+  Logger::log("Entity dx: " + std::to_string(dx) + " dy: " + std::to_string(dy));
 }
 
 
