@@ -36,3 +36,17 @@ void Termite::draw() {
   Rect collision_box = get_collision_box();
   g_renderer->draw_rect(collision_box, Col{255, 0, 0, 255}, false);
 }
+
+void Termite::damage(int damage) {
+  Logger::log("Termite damaged: " + std::to_string(damage));
+
+  if (can_be_damaged && !m_cooldown->has_state("dmg_cd")) {
+    life -= damage - armor;
+    can_be_damaged = false;
+    m_cooldown->set_state("dmg_cd", .15f);
+  }
+}
+
+bool Termite::can_collide() {
+  return can_be_damaged && life > 0;
+}

@@ -49,8 +49,6 @@ void Entity::update(double dt) {
 void Entity::fixed_update(double tmod) {
   dx*=Math::pow(frict_x, tmod);
   dy*=Math::pow(frict_y, tmod);
-
-  Logger::log("Entity dx: " + std::to_string(dx) + " dy: " + std::to_string(dy));
 }
 
 

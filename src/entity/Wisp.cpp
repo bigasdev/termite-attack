@@ -42,4 +42,27 @@ void Wisp::move_to(vec2 target, float speed) {
 void Wisp::dettach() {
   is_attached = false;
   dy = -35;
+  m_cooldown->set_state("dettach", 0.5f);
 }
+
+void Wisp::bump(vec2 from) {
+  if(m_cooldown->has_state("dettach"))return;
+  vec2 dir = from - pos;
+  Math::normalize(dir);
+  dx += dir.x * 4;
+  dy += Math::abs(dir.y) * 9;
+}
+
+void Wisp::wall_bump(int speed) {
+  if(m_cooldown->has_state("dettach"))return;
+  dx += speed;
+}
+
+void Wisp::launch(vec2 from) {
+  if(m_cooldown->has_state("dettach"))return;
+  vec2 dir = from - pos;
+  Math::normalize(dir);
+  dx -= dir.x * 6;
+  dy -= Math::abs(dir.y) * 29;
+}
+

@@ -1,16 +1,6 @@
 #pragma once
 
 #include "SDL_stdinc.h"
-struct Rect {
-  int x, y, w, h;
-
-  Rect() : x(0), y(0), w(0), h(0) {}
-  Rect(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
-
-  bool intersects(const Rect &r) {
-    return x < r.x + r.w && x + w > r.x && y < r.y + r.h && y + h > r.y;
-  }
-};
 
 struct Line {
   int x1, y1, x2, y2;
@@ -44,6 +34,23 @@ struct vec2 {
   int distance_y(vec2 v) { return v.y - y; }
 };
 
+struct Rect {
+  int x, y, w, h;
+
+  Rect() : x(0), y(0), w(0), h(0) {}
+  Rect(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
+
+  bool intersects(const Rect &r) {
+    return x < r.x + r.w && x + w > r.x && y < r.y + r.h && y + h > r.y;
+  }
+  vec2 get_intersect_point(const Rect &r) {
+    int x1 = x > r.x ? x : r.x;
+    int y1 = y > r.y ? y : r.y;
+    int x2 = (x + w) < (r.x + r.w) ? (x + w) : (r.x + r.w);
+    int y2 = (y + h) < (r.y + r.h) ? (y + h) : (r.y + r.h);
+    return vec2(x1, y1);
+  }
+};
 struct vec3 {
   float x, y, z;
 };

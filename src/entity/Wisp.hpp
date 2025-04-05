@@ -13,6 +13,9 @@ public:
   void move_to(vec2 target, float speed = 0) override;
 
   void dettach();
+  void bump(vec2 from);
+  void wall_bump(int speed);
+  void launch(vec2 from);
 
   bool is_attached = true;
 private:

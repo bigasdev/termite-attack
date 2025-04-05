@@ -52,6 +52,13 @@ Game::Game() {
 Game::~Game() {
 }
 
+void spawn_termites() {
+  for (int i = 0; i < 10; i++) {
+    Termite* t = new Termite("termite", vec2(Random::get(-get_game_area_x(), get_game_area_x()), Random::get(-get_game_area_y(), get_game_area_y())));
+    termites.push_back(t);
+  }
+}
+
 void Game::init() {
   m_camera = new Camera(g_engine->get_window_size());
   m_cooldown = new Cooldown();
@@ -67,11 +74,16 @@ void Game::init() {
 
   hero = std::make_unique<Wisp>("wisp", vec2{0, 350});
   board = std::make_unique<Entity>("board", vec2{0, 350});
+
+  //spawn_termites();
 }
 
 void Game::fixed_update(double tmod) {
   hero->fixed_update(tmod);
   board->fixed_update(tmod);
+  for (auto& t : termites) {
+    t->fixed_update(tmod);
+  }
 
   dx += (g_input_manager->get_raw_axis().x * 17.5) * tmod;
   dx *= Math::pow(0.92f, tmod);
@@ -93,13 +105,36 @@ void Game::update(double dt) {
     board->pos.x = get_game_area_x() - 16 * g_camera->get_game_scale();
   }
 
+  if(hero.get()->pos.x < -get_game_area_x()){
+    hero.get()->wall_bump(10);
+  }
+  if(hero.get()->pos.x > get_game_area_x() - 16 * g_camera->get_game_scale()){
+    hero.get()->wall_bump(-10);
+  }
   //attached wisp
   if(hero->is_attached){
     hero.get()->pos = vec2{board->pos.x, board->pos.y - 10};
+  }else{
+    for(auto& t : termites) {
+      if(!t->can_collide())continue;
+      if(hero.get()->get_collision_box().intersects(t->get_collision_box())){
+        t->damage(10);
+        hero.get()->bump(hero.get()->get_collision_box().get_intersect_point(t->get_collision_box()));
+        
+        continue;
+      }
+    }
+
+    if(hero.get()->get_collision_box().intersects(board.get()->get_collision_box())){
+      hero.get()->launch(hero.get()->get_collision_box().get_intersect_point(board.get()->get_collision_box()));
+    }
   }
 
   hero->update(dt);
   board->update(dt);
+  for (auto& t : termites) {
+    t->update(dt);
+  }
 
   if (moving_left)
     m_camera->track_pos(&wood_pos);
@@ -144,6 +179,11 @@ void Game::draw_root() {
 void Game::draw_ent(){
   g_renderer->draw(*g_res->get_texture(board->spr.sheet), board->spr, board->pos);
   g_renderer->draw(*g_res->get_texture(hero->spr.sheet), hero->spr, hero->pos);
+
+  for (auto& t : termites) {
+    g_renderer->draw(*g_res->get_texture(t->spr.sheet), t->spr, t->pos);
+    t->draw();
+  }
 }
 void Game::draw_ui(){
 }
