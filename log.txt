@@ -63,4 +63,8 @@ Game:4
 Game initialized
 Engine post init
 Playing animation 0 5
+Termite damaged: 10
+Termite damaged: 10
+Termite damaged: 10
+Termite damaged: 10
 SDL2 quit

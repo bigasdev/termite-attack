@@ -22,6 +22,10 @@ Termite::~Termite() {
 
 void Termite::update(double dt) {
   Entity::update(dt);
+
+  if(!m_cooldown->has_state("dmg_cd")){
+    can_be_damaged = true;
+  }
 }
 
 void Termite::fixed_update(double tmod) {
@@ -43,7 +47,7 @@ void Termite::damage(int damage) {
   if (can_be_damaged && !m_cooldown->has_state("dmg_cd")) {
     life -= damage - armor;
     can_be_damaged = false;
-    m_cooldown->set_state("dmg_cd", .15f);
+    m_cooldown->set_state("dmg_cd", .5f);
   }
 }
 

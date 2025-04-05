@@ -53,9 +53,13 @@ Game::~Game() {
 }
 
 void spawn_termites() {
-  for (int i = 0; i < 10; i++) {
-    Termite* t = new Termite("termite", vec2(Random::get(-get_game_area_x(), get_game_area_x()), Random::get(-get_game_area_y(), get_game_area_y())));
-    termites.push_back(t);
+  for(int j = -get_game_area_y(); j < 0; j+= 36){
+    for(int i = -get_game_area_x(); i < game_area_x - 300; i+= 36){
+      Termite* t = new Termite("termite", vec2(i, j));
+      t->life = 20;
+      t->max_life = 20;
+      termites.push_back(t);
+    }
   }
 }
 
@@ -75,7 +79,7 @@ void Game::init() {
   hero = std::make_unique<Wisp>("wisp", vec2{0, 350});
   board = std::make_unique<Entity>("board", vec2{0, 350});
 
-  //spawn_termites();
+  spawn_termites();
 }
 
 void Game::fixed_update(double tmod) {
@@ -85,7 +89,7 @@ void Game::fixed_update(double tmod) {
     t->fixed_update(tmod);
   }
 
-  dx += (g_input_manager->get_raw_axis().x * 17.5) * tmod;
+  dx += (g_input_manager->get_raw_axis().x * 37.5) * tmod;
   dx *= Math::pow(0.92f, tmod);
 }
 
@@ -181,6 +185,7 @@ void Game::draw_ent(){
   g_renderer->draw(*g_res->get_texture(hero->spr.sheet), hero->spr, hero->pos);
 
   for (auto& t : termites) {
+    if(!t->can_collide())continue;
     g_renderer->draw(*g_res->get_texture(t->spr.sheet), t->spr, t->pos);
     t->draw();
   }
