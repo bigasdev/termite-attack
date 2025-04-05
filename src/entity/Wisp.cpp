@@ -16,6 +16,10 @@ Wisp::Wisp(std::string spr_name, vec2 _pos) : Entity(spr_name, _pos) {
   idle.orig_x = spr.dst_x;
   idle.orig_y = spr.dst_y;
   idle.state = &is_idle;
+  
+  frict_x = 1;
+  frict_y = 1;
+  z_gravity = 0;
 
   animator->register_anim(idle);
 }
@@ -41,29 +45,46 @@ void Wisp::move_to(vec2 target, float speed) {
 
 void Wisp::dettach() {
   is_attached = false;
-  dy = -15;
+  dy = -speed;
   m_cooldown->set_state("dettach", 0.15f);
 }
 
 void Wisp::bump(vec2 from) {
   if(m_cooldown->has_state("dettach") || m_cooldown->has_state("attacked"))return;
-  vec2 dir = from - pos;
-  Math::normalize(dir);
-  dx += dir.x * 5;
-  dy += 8;
+  
+  if(pos.x < from.x){
+    dx = speed;
+    dy = speed;
+  }
+
+  if(pos.x > from.x){
+    dx = -speed;
+    dy = speed;
+  }
+
   m_cooldown->set_state("attacked", 0.05f);
 }
 
-void Wisp::wall_bump(int speed) {
+void Wisp::wall_bump(int multiplier) {
   if(m_cooldown->has_state("dettach"))return;
-  dx += speed;
+  dx = speed * multiplier;
 }
 
 void Wisp::launch(vec2 from) {
   if(m_cooldown->has_state("dettach"))return;
-  vec2 dir = from - pos;
-  Math::normalize(dir);
-  dx -= dir.x * 6;
-  dy -= Math::abs(dir.y) * 29;
+
+  if(pos.x < from.x){
+    dx = -speed;
+    dy = -speed;
+  }
+
+  if(pos.x > from.x){
+    dx = speed;
+    dy = -speed;
+  }
+  if(Math::approx(pos.x, from.x, 20)){
+    dx = 0;
+    dy = -speed;
+  }
 }
 

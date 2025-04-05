@@ -14,10 +14,11 @@ public:
 
   void dettach();
   void bump(vec2 from);
-  void wall_bump(int speed);
+  void wall_bump(int multiplier);
   void launch(vec2 from);
 
   bool is_attached = true;
 private:
   bool is_idle = true;
+  int speed = 4;
 };

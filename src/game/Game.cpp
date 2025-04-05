@@ -110,10 +110,10 @@ void Game::update(double dt) {
   }
 
   if(hero.get()->pos.x < -get_game_area_x()){
-    hero.get()->wall_bump(10);
+    hero.get()->wall_bump(1);
   }
   if(hero.get()->pos.x > get_game_area_x() - 16 * g_camera->get_game_scale()){
-    hero.get()->wall_bump(-10);
+    hero.get()->wall_bump(-1);
   }
   //attached wisp
   if(hero->is_attached){
@@ -123,14 +123,14 @@ void Game::update(double dt) {
       if(!t->can_collide())continue;
       if(hero.get()->get_collision_box().intersects(t->get_collision_box())){
         t->damage(10);
-        hero.get()->bump(hero.get()->get_collision_box().get_intersect_point(t->get_collision_box()));
+        hero.get()->bump(t->pos);
         
         continue;
       }
     }
 
     if(hero.get()->get_collision_box().intersects(board.get()->get_collision_box())){
-      hero.get()->launch(hero.get()->get_collision_box().get_intersect_point(board.get()->get_collision_box()));
+      hero.get()->launch(board->pos);
     }
   }
 

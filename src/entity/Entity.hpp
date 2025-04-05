@@ -40,10 +40,10 @@ public:
   //used to animate the Entity
   SpriteAnimator *animator;
   float z_gravity = 15.17;
+  float frict_x = 0.92f , frict_y = 0.95f;
 private:
 
   
-  float frict_x = 0.92f , frict_y = 0.95f;
   //gravity stuff 
   float dz = 0.0, zr = 0.0;
 
