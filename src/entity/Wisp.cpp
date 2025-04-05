@@ -45,7 +45,7 @@ void Wisp::move_to(vec2 target, float speed) {
 
 void Wisp::dettach() {
   is_attached = false;
-  dy = -speed;
+  dy = -speed + speed_add;
   m_cooldown->set_state("dettach", 0.15f);
 }
 
@@ -53,13 +53,13 @@ void Wisp::bump(vec2 from) {
   if(m_cooldown->has_state("dettach") || m_cooldown->has_state("attacked"))return;
   
   if(pos.x < from.x){
-    dx = speed;
-    dy = speed;
+    dx = speed + speed_add;
+    dy = speed + speed_add;
   }
 
   if(pos.x > from.x){
-    dx = -speed;
-    dy = speed;
+    dx = -speed - speed_add;
+    dy = speed + speed_add;
   }
 
   m_cooldown->set_state("attacked", 0.05f);
@@ -71,20 +71,20 @@ void Wisp::wall_bump(int multiplier) {
 }
 
 void Wisp::launch(vec2 from) {
-  if(m_cooldown->has_state("dettach"))return;
+  if(m_cooldown->has_state("dettach") || is_attached)return;
 
   if(pos.x < from.x){
-    dx = -speed;
-    dy = -speed;
+    dx = -speed - speed_add;
+    dy = -speed - speed_add;
   }
 
   if(pos.x > from.x){
-    dx = speed;
-    dy = -speed;
+    dx = speed + speed_add;
+    dy = -speed - speed_add;
   }
   if(Math::approx(pos.x, from.x, 20)){
     dx = 0;
-    dy = -speed;
+    dy = -speed - speed_add;
   }
 }
 

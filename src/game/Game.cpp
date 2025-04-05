@@ -32,15 +32,13 @@ vec2 wood_pos = {20, 40};
 std::unique_ptr<Wisp> hero;
 std::unique_ptr<Entity> board;
 
-//game area 
-int game_area_x = 600, game_area_y = 900;
 
 int get_game_area_x() {
-  return game_area_x / 2;
+  return GAME_AREA_X / 2;
 }
 
 int get_game_area_y() {
-  return game_area_y / 2;
+  return GAME_AREA_Y / 2;
 }
 
 //termites 
@@ -54,9 +52,9 @@ Game::~Game() {
 
 void spawn_termites() {
   for(int j = -get_game_area_y(); j < 0; j+= 36){
-    for(int i = -get_game_area_x(); i < game_area_x - 300; i+= 36){
+    for(int i = -get_game_area_x(); i < GAME_AREA_X - 300; i+= 36){
       Termite* t = new Termite("termite", vec2(i, j));
-      t->life = 20;
+      t->life = 10;
       t->max_life = 20;
       termites.push_back(t);
     }
@@ -115,6 +113,12 @@ void Game::update(double dt) {
   if(hero.get()->pos.x > get_game_area_x() - 16 * g_camera->get_game_scale()){
     hero.get()->wall_bump(-1);
   }
+  
+  if(hero.get()->pos.y > BOTTOM_AREA_Y){
+    hero.get()->life -= 10 - hero.get()->endurance;
+    hero->is_attached = true;
+  }
+
   //attached wisp
   if(hero->is_attached){
     hero.get()->pos = vec2{board->pos.x, board->pos.y - 10};
@@ -122,7 +126,8 @@ void Game::update(double dt) {
     for(auto& t : termites) {
       if(!t->can_collide())continue;
       if(hero.get()->get_collision_box().intersects(t->get_collision_box())){
-        t->damage(10);
+        t->damage(hero.get()->attack);
+        if(t->life <= 0)continue;
         hero.get()->bump(t->pos);
         
         continue;
@@ -176,7 +181,7 @@ void Game::post_update(double dt) {
 }
 
 void Game::draw_root() {
-  Rect playing_area = Rect(-get_game_area_x(), -get_game_area_y(), game_area_x, game_area_y);
+  Rect playing_area = Rect(-get_game_area_x(), -get_game_area_y(), GAME_AREA_X, GAME_AREA_Y);
   g_renderer->draw_rect(playing_area, Col{0,255,0,255}, false);
 }
 
@@ -185,7 +190,7 @@ void Game::draw_ent(){
   g_renderer->draw(*g_res->get_texture(hero->spr.sheet), hero->spr, hero->pos);
 
   for (auto& t : termites) {
-    if(!t->can_collide())continue;
+    if(t->life <= 0)continue;
     g_renderer->draw(*g_res->get_texture(t->spr.sheet), t->spr, t->pos);
     t->draw();
   }

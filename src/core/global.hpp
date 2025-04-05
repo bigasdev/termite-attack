@@ -2,6 +2,10 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+#define GAME_AREA_X 600
+#define GAME_AREA_Y 900
+#define BOTTOM_AREA_Y 450
+
 class Engine;
 class Res;
 class SoundManager;

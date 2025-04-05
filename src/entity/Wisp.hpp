@@ -18,6 +18,12 @@ public:
   void launch(vec2 from);
 
   bool is_attached = true;
+
+  //stats 
+  int attack = 10;
+  int speed_add = 0;
+  int endurance = 5;
+  int luck = 0;
 private:
   bool is_idle = true;
   int speed = 4;
