@@ -11,17 +11,21 @@ public:
   void update(double dt) override;
   void fixed_update(double tmod) override;
   void move_to(vec2 target, float speed = 0) override;
+  void draw();
 
   void dettach();
   void bump(vec2 from);
   void wall_bump(int multiplier);
+  void top_bump();
   void launch(vec2 from);
+
+  void reset();
 
   bool is_attached = true;
 
   //stats 
   int attack = 10;
-  int speed_add = 0;
+  float speed_add = 0;
   int endurance = 5;
   int luck = 0;
 private:

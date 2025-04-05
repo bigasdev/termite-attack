@@ -37,8 +37,6 @@ void Termite::move_to(vec2 target, float speed) {
 }
 
 void Termite::draw() {
-  Rect collision_box = get_collision_box();
-  g_renderer->draw_rect(collision_box, Col{255, 0, 0, 255}, false);
 }
 
 void Termite::damage(int damage) {
@@ -47,7 +45,7 @@ void Termite::damage(int damage) {
   if (can_be_damaged && !m_cooldown->has_state("dmg_cd")) {
     life -= damage - armor;
     can_be_damaged = false;
-    m_cooldown->set_state("dmg_cd", .5f);
+    m_cooldown->set_state("dmg_cd", .1f);
   }
 }
 

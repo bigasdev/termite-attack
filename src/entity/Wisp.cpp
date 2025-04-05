@@ -1,6 +1,7 @@
 #include "Wisp.hpp"
 #include "../core/global.hpp"
 #include "../res/Res.hpp"
+#include "../renderer/Renderer.hpp"
 #include "../tools/Math.hpp"
 #include "AffectManager.hpp"
 #include "../tools/Cooldown.hpp"
@@ -43,23 +44,40 @@ void Wisp::move_to(vec2 target, float speed) {
   Entity::move_to(target, speed);
 }
 
+void Wisp::draw() {
+  //g_renderer->draw_rect(get_collision_box(), Col{255, 0, 0, 255},false);
+  auto w = life;
+  Rect hp_bar = Rect(pos.x + spr.spr_x + spr.col_x + 5, pos.y + spr.spr_y + spr.col_y - 10, w, 4);
+  g_renderer->draw_rect(hp_bar, Col{255, 0, 0, 255}, true);
+}
+
 void Wisp::dettach() {
   is_attached = false;
-  dy = -speed + speed_add;
+  dy = -(speed + speed_add);
   m_cooldown->set_state("dettach", 0.15f);
 }
 
 void Wisp::bump(vec2 from) {
   if(m_cooldown->has_state("dettach") || m_cooldown->has_state("attacked"))return;
+  speed_add += .15f;
   
   if(pos.x < from.x){
-    dx = speed + speed_add;
-    dy = speed + speed_add;
-  }
+    dx = (speed/2) + speed_add;
 
+    if(pos.y < from.y){
+      dy = -(speed + speed_add);
+    }else{
+      dy = speed + speed_add;
+    } }
   if(pos.x > from.x){
-    dx = -speed - speed_add;
+    dx = -(speed/2 + speed_add);
     dy = speed + speed_add;
+
+    if(pos.y < from.y){
+      dy = -(speed + speed_add);
+    }else{
+      dy = speed + speed_add;
+    }
   }
 
   m_cooldown->set_state("attacked", 0.05f);
@@ -70,21 +88,33 @@ void Wisp::wall_bump(int multiplier) {
   dx = speed * multiplier;
 }
 
+void Wisp::top_bump() {
+  if(m_cooldown->has_state("dettach"))return;
+  dy = speed + speed_add;
+}
+
 void Wisp::launch(vec2 from) {
   if(m_cooldown->has_state("dettach") || is_attached)return;
 
   if(pos.x < from.x){
-    dx = -speed - speed_add;
-    dy = -speed - speed_add;
+    dx = -(speed + speed_add);
+    dy = -(speed + speed_add);
   }
 
   if(pos.x > from.x){
     dx = speed + speed_add;
-    dy = -speed - speed_add;
+    dy = -(speed + speed_add);
   }
   if(Math::approx(pos.x, from.x, 20)){
     dx = 0;
-    dy = -speed - speed_add;
+    dy = -(speed + speed_add);
   }
+}
+
+void Wisp::reset() {
+  is_attached = true;
+  speed_add = 0;
+  dx = 0;
+  dy = 0;
 }
 

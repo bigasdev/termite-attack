@@ -54,10 +54,20 @@ Game::~Game() {
 void spawn_termites() {
   for(int j = -get_game_area_y(); j < 0; j+= 36){
     for(int i = -get_game_area_x(); i < GAME_AREA_X - 300; i+= 36){
-      Termite* t = new Termite("termite", vec2(i, j));
-      t->life = 10;
-      t->max_life = 20;
-      termites.push_back(t);
+      auto rnd = Random::get(0, 1);
+
+      if(rnd == 0){
+        Termite* t = new Termite("termite", vec2(i, j));
+        t->life = 10;
+        t->max_life = 20;
+        termites.push_back(t);
+      }else{
+        Termite* t = new Termite("termite_knight", vec2(i, j));
+        t->life = 30;
+        t->max_life = 30;
+        termites.push_back(t);
+      }
+
     }
   }
 }
@@ -118,7 +128,12 @@ void Game::update(double dt) {
   
   if(hero.get()->pos.y > BOTTOM_AREA_Y){
     hero.get()->life -= 10 - hero.get()->endurance;
+    hero.get()->reset();
     hero->is_attached = true;
+  }
+
+  if(hero.get()->pos.y < -get_game_area_y()){
+    hero.get()->top_bump();
   }
 
   //attached wisp
@@ -195,6 +210,8 @@ void Game::draw_ent(){
     g_renderer->draw(*g_res->get_texture(t->spr.sheet), t->spr, t->pos);
     t->draw();
   }
+
+  hero.get()->draw();
 }
 void Game::draw_ui(){
 }
