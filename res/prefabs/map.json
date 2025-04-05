@@ -45,6 +45,21 @@
         "sprite_size_y": 8
     },
     {
+        "atlas_name": "map_atlas",
+        "atlas_pos_x": 0,
+        "atlas_pos_y": 0,
+        "collision_box_x": 16,
+        "collision_box_y": 16,
+        "collision_offset_x": 0,
+        "collision_offset_y": 0,
+        "group": "default",
+        "name": "map_bg",
+        "sprite_offset_x": -80,
+        "sprite_offset_y": -117,
+        "sprite_size_x": 160,
+        "sprite_size_y": 235
+    },
+    {
         "atlas_name": "character_atlas",
         "atlas_pos_x": 0,
         "atlas_pos_y": 4,

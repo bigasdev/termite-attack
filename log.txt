@@ -1,5 +1,7 @@
 SDL2 initialized
 SDL2 version: SDL-release-2.28.4-0-gcc016b004
+SDL2 renderer created
+SDL2 GPU created
 SDL2 image initialized
 SDL2 mixer initialized
 SDL2 window created
@@ -40,10 +42,12 @@ Loading sound: victory
 SoundManager::load_sound: loaded sound victory
 res/character_atlas.aseprite
 res/items_atlas.aseprite
+res/map_atlas.aseprite
 Finished aseprite load!
 ------------
 Aseprite: character_atlas
 Aseprite: items_atlas
+Aseprite: map_atlas
 Loading animation file: animations
 ERROR: Failed to load animation: res/animations\animations.json [json.exception.type_error.302] type must be array, but is null
 ERROR: Failed to load animation: res/animations\animations.json [json.exception.type_error.302] type must be array, but is null
@@ -55,6 +59,7 @@ Loading prefab: map
 Prefab loaded: bigas
 Prefab loaded: board
 Prefab loaded: health_potion
+Prefab loaded: map_bg
 Prefab loaded: termite
 Prefab loaded: wisp
 Loaded shader: res/shaders/light_vertex.glsl and res/shaders/newoutline.frag.glsl
@@ -63,30 +68,4 @@ Game:4
 Game initialized
 Engine post init
 Playing animation 0 5
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
-Termite damaged: 10
 SDL2 quit

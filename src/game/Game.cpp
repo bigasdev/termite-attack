@@ -31,6 +31,7 @@ vec2 wood_pos = {20, 40};
 
 std::unique_ptr<Wisp> hero;
 std::unique_ptr<Entity> board;
+std::unique_ptr<Entity> map_bg;
 
 
 int get_game_area_x() {
@@ -74,6 +75,7 @@ void Game::init() {
 
   g_camera->track_pos(&hero_pos);
 
+  map_bg = std::make_unique<Entity>("map_bg", vec2{0, 0});
   hero = std::make_unique<Wisp>("wisp", vec2{0, 350});
   board = std::make_unique<Entity>("board", vec2{0, 350});
 
@@ -181,8 +183,7 @@ void Game::post_update(double dt) {
 }
 
 void Game::draw_root() {
-  Rect playing_area = Rect(-get_game_area_x(), -get_game_area_y(), GAME_AREA_X, GAME_AREA_Y);
-  g_renderer->draw_rect(playing_area, Col{0,255,0,255}, false);
+  g_renderer->draw(*g_res->get_texture(map_bg->spr.sheet), map_bg->spr, map_bg->pos);
 }
 
 void Game::draw_ent(){
