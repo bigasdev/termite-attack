@@ -49,8 +49,8 @@ void Game::init() {
 
   g_camera->track_pos(&hero_pos);
 
-  hero = std::make_unique<Entity>("bigas", vec2{0, 0});
-  hp = std::make_unique<Entity>("health_potion", vec2{0, 50});
+  hero = std::make_unique<Entity>("wisp", vec2{0, 0});
+  hp = std::make_unique<Entity>("board", vec2{0, 50});
 
   Logger::log("Hero spr sheet : " + hp->spr.sheet);
 }

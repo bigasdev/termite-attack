@@ -8,8 +8,7 @@
 #include  "../tools/Logger.hpp"
 
 //FIX: revamp this later, just a base state manager
-bool is_idle = false;
-bool is_walking = true;
+bool is_idle = true;
 
 Entity::Entity() {
 }
@@ -21,16 +20,11 @@ Entity::Entity(std::string spr_name, vec2 _pos) {
   animator = new SpriteAnimator(&spr);
 
   SpriteFrame idle = g_res->get_animation("idle");
-  SpriteFrame walk = g_res->get_animation("walk");
   idle.orig_x = spr.dst_x;
   idle.orig_y = spr.dst_y;
-  walk.orig_x = spr.dst_x;
-  walk.orig_y = spr.dst_y;
   idle.state = &is_idle;
-  walk.state = &is_walking;
 
   animator->register_anim(idle);
-  animator->register_anim(walk);
 
   m_cooldown = new Cooldown();
   m_affect_manager = new AffectManager();

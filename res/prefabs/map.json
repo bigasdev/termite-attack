@@ -15,6 +15,21 @@
         "sprite_size_y": 8
     },
     {
+        "atlas_name": "character_atlas",
+        "atlas_pos_x": 0,
+        "atlas_pos_y": 1,
+        "collision_box_x": 16,
+        "collision_box_y": 6,
+        "collision_offset_x": 0,
+        "collision_offset_y": 11,
+        "group": "default",
+        "name": "board",
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0,
+        "sprite_size_x": 16,
+        "sprite_size_y": 16
+    },
+    {
         "atlas_name": "items_atlas",
         "atlas_pos_x": 1,
         "atlas_pos_y": 0,
@@ -28,5 +43,35 @@
         "sprite_offset_y": 0,
         "sprite_size_x": 8,
         "sprite_size_y": 8
+    },
+    {
+        "atlas_name": "character_atlas",
+        "atlas_pos_x": 0,
+        "atlas_pos_y": 4,
+        "collision_box_x": 8,
+        "collision_box_y": 5,
+        "collision_offset_x": 1,
+        "collision_offset_y": 3,
+        "group": "default",
+        "name": "termite",
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0,
+        "sprite_size_x": 9,
+        "sprite_size_y": 8
+    },
+    {
+        "atlas_name": "character_atlas",
+        "atlas_pos_x": 0,
+        "atlas_pos_y": 0,
+        "collision_box_x": 11,
+        "collision_box_y": 10,
+        "collision_offset_x": 2,
+        "collision_offset_y": 2,
+        "group": "default",
+        "name": "wisp",
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0,
+        "sprite_size_x": 16,
+        "sprite_size_y": 16
     }
 ]

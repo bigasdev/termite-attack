@@ -1,29 +1,31 @@
 [
     {
-        "animations": [
-            {
-                "block_transition": false,
-                "frames": 1,
-                "loop": true,
-                "name": "idle",
-                "x": 0,
-                "y": 0
-            },
-            {
-                "block_transition": false,
-                "frames": 4,
-                "loop": true,
-                "name": "walk",
-                "x": 0,
-                "y": 0
-            }
-        ],
+        "animations": null,
         "name": "bigas",
+        "sprite_name": "character_atlas"
+    },
+    {
+        "animations": null,
+        "name": "board",
         "sprite_name": "character_atlas"
     },
     {
         "animations": null,
         "name": "health_potion",
         "sprite_name": "items_atlas"
+    },
+    {
+        "animations": [
+            {
+                "block_transition": false,
+                "frames": 5,
+                "loop": true,
+                "name": "idle",
+                "x": 0,
+                "y": 0
+            }
+        ],
+        "name": "wisp",
+        "sprite_name": "character_atlas"
     }
 ]
